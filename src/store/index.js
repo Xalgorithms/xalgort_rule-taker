@@ -1,6 +1,7 @@
-import { createStore, compose } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import firebase from 'firebase';
+import { createLogger } from 'redux-logger';
 // import 'firebase/firestore' // <- needed if using firestore
 import rootReducer from '../reducers'
 
@@ -26,9 +27,16 @@ firebase.initializeApp(firebaseConfig);
 // firebase.firestore() // <- needed if using firestore
 
 export const configureStore = () => {
+  const middleWare = [];
+  const loggerMiddleware = createLogger({
+    predicate: () => process.env.NODE_ENV === 'development',
+  });
+  middleWare.push(loggerMiddleware)
+
   const createStoreWithFirebase = compose(
     reactReduxFirebase(firebase, rrfConfig),
     // reduxFirestore(firebase) // <- needed if using firestore
+    applyMiddleware(...middleWare)
   )(createStore);
 
   const initialState = {};
