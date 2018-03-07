@@ -10,6 +10,9 @@ script: yarn build
 before_deploy:
   # this should not be necessary, but the local eslint is broken,
   # something is up with the node path during deploy
+  - cd functions
+  - npm i
+  - cd ..
   - npm i -g eslint eslint-plugin-promise
 deploy:
   provider: firebase
