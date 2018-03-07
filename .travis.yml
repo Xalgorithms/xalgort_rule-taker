@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - node
+- node
 cache:
   yarn: true
   directories:
-    - node_modules
+  - node_modules
 script: yarn build
 deploy:
   provider: firebase
@@ -12,3 +12,7 @@ deploy:
   project: lichen-ui
   token:
     secure: N/jiRgmU8aertfABH8Kfgd1gQfyU3GGD6UK8pPUjJodvHFBScI+L6sh1oZFG4PbCeDmjmsGb8If+tVTLMgh/o6qeoaTLRHEeEHFWUFjeynj/tyWt8RiMpyyMjY4KlpGZ2L51AMFahOJC8ntTYYyaQLEMIqc7mT3+hbh/qsKe2RZC+/ZDZuskPp1oyQbnnFDlKqgsIXrKaZ7av14guS881ThLcNIfvtl7b5SOPjkxo2FnLRhvsljiJ493x8M+p+uRykN63+da7nabRQ9a0Elgm/wqcaiTJyd7i9iNrfLFADlBnlKOHLrwKGuYNr806FBPgvT8kn6O5iB01ZgdWX/ulx/Cs+bdbEuCURZhO141C7uZu5B282MujVjVhiBFU4oi8LsfszUjjsjQKspm70ctZp2cJyUWj83jn69kXTorXpmJFxLXyD1M+bB5QPI6EMMV2NvdDAoDvkcEOmXjNpVINWz29IY9SdN3jKG9aIP9UwMKQcFydmzQGufmu8Ohx02WMd1ZNjbEE2A0YuihdjT4zpL7xGFkyt5aRUQNMb5ZZgVeAbgaev+JLyRNMPTBkY3tF2J056Ak+BGIdXktIGdC+LY7pfOLcq6tcHZ01ORSTIRXsuHUjPn63fi28hyRLhCF9saRhddaJiJkh6+/8qAKSuD2iIwsIkUeehUKs9z8njE=
+notifications:
+  slack:
+    rooms:
+      secure: BW1pTxky/HkvldH4nQkWpim9XknDcPmbg+pLlbpUv8LamQk2WKHTG9R/uymMX8BsaqrR42PDSJFNM3H/8nV9cbS1zARGT4qBUwMqIQ6yZeR/XDmXTUvHZAaglGKhg4h5x8TfFifsXmiTtogydKAGVfAoNCyGNCyUNwe3kOgiS5vgvYGnj+xr9/+CPnkIDG+qZsZ+znMOnvAqU/6sPQCsBajWxmLCzeANb4C9LCcQwwnWL9dKxQyIOD0maE5HWWMixUnhtm7CQgPk4ZsZF6A2fhIvbuDFAWjXoCdUMyyPYNrCb5pW8eQQl1SHAsh1mweiS13iiOM100lUWqj74rRJpzQCY/K6G+tUdAClZ21omIeMTUP7MLK4Cou1qAMvrZKTw07oFfuGTmNb5nSn8qW1cBDeYKRsV/ozHiVQ3DUYh9b1zjH+yerJ3ey8zb4bMdWtXhaa8VQoRuRUOsBqywB6dI8Y+aSqtFoynPJDCS4a0k81bRZZef/CKwBd8outayMJJfNGHp24vrOsfDdKh2f+fod1ZqAU/ZMY0KTT3nkXUHC+pUp0mLk+kZMLKWeITZLvgT2WPDxsvonDK/mxDoNxtQiGOIRAG0DsXLENRz2dES+fuvZsjG+Jz1UzJkR+u4xM759JFTddkSojdYZmqNbL2u37I/g5HzZX6bVqThQIVcI=
