@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - node
+cache:
+  yarn: true
+  directories:
+    - node_modules
+script: yarn build
+deploy:
+  provider: firebase
+  on: production
+  project: lichen-ui
+  token:
+    secure: N/jiRgmU8aertfABH8Kfgd1gQfyU3GGD6UK8pPUjJodvHFBScI+L6sh1oZFG4PbCeDmjmsGb8If+tVTLMgh/o6qeoaTLRHEeEHFWUFjeynj/tyWt8RiMpyyMjY4KlpGZ2L51AMFahOJC8ntTYYyaQLEMIqc7mT3+hbh/qsKe2RZC+/ZDZuskPp1oyQbnnFDlKqgsIXrKaZ7av14guS881ThLcNIfvtl7b5SOPjkxo2FnLRhvsljiJ493x8M+p+uRykN63+da7nabRQ9a0Elgm/wqcaiTJyd7i9iNrfLFADlBnlKOHLrwKGuYNr806FBPgvT8kn6O5iB01ZgdWX/ulx/Cs+bdbEuCURZhO141C7uZu5B282MujVjVhiBFU4oi8LsfszUjjsjQKspm70ctZp2cJyUWj83jn69kXTorXpmJFxLXyD1M+bB5QPI6EMMV2NvdDAoDvkcEOmXjNpVINWz29IY9SdN3jKG9aIP9UwMKQcFydmzQGufmu8Ohx02WMd1ZNjbEE2A0YuihdjT4zpL7xGFkyt5aRUQNMb5ZZgVeAbgaev+JLyRNMPTBkY3tF2J056Ak+BGIdXktIGdC+LY7pfOLcq6tcHZ01ORSTIRXsuHUjPn63fi28hyRLhCF9saRhddaJiJkh6+/8qAKSuD2iIwsIkUeehUKs9z8njE=
