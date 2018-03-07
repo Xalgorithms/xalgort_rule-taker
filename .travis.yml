@@ -7,9 +7,9 @@ cache:
   - node_modules
 script: yarn build
 before_deploy:
-  - cd functions
-  - yarn
-  - cd ..
+  # this should not be necessary, but the local eslint is broken,
+  # something is up with the node path during deploy
+  - npm i -g eslint eslint-plugin-promise
 deploy:
   provider: firebase
   on: production
