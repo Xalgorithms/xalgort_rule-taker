@@ -24,7 +24,7 @@ const App = () => (
 
       <Container style={{ marginTop: '4em' }}>
         <Switch>
-          <Route path={routes.HOME} component={ Home } />
+          <Route path={routes.HOME} component={ Home } exact />
           <Route path={routes.SIGN_IN} component={ Login } />
           <Route path={`${routes.INVOICE}/:id`} component={ Invoice } />
         </Switch>

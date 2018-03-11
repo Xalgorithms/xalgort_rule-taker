@@ -23,10 +23,6 @@ class Login extends Component {
   }
 
   render() {
-    // const {
-    //   auth,
-    // } = this.props;
-
     return (
       <div>
         <GoogleButton onClick={this.onAuth}>
