@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { Segment, Header, List } from 'semantic-ui-react';
+import { Segment, Header, List, Table } from 'semantic-ui-react';
 
 const enhance = compose(
   firebaseConnect((props) => {
@@ -18,31 +18,51 @@ const enhance = compose(
   })
 )
 
-const Invoice = ({invoice = {}}) => {
+const Invoice = ({invoice = {}, match}) => {
+  const { envelope = {}, items = [] } = invoice;
+
   return <Segment>
-    <Header size='medium'>{ invoice.title }</Header>
+    <Header size='medium'>Invoice #{match.params.id}</Header>
     <List>
       <List.Item>
-        <List.Header>Email</List.Header>
-        {invoice.email}
+        <List.Header>Buyer Address</List.Header>
+        { envelope.buyer_address }, { envelope.buyer_region }, { envelope.buyer_country }
       </List.Item>
       <List.Item>
-        <List.Header>Timezone</List.Header>
-        { invoice.tz }
+        <List.Header>Seller Address</List.Header>
+        { envelope.seller_address }, { envelope.seller_region }, { envelope.seller_country }
       </List.Item>
       <List.Item>
-        <List.Header>Date</List.Header>
-        { invoice.date }
+        <List.Header>Issue Date</List.Header>
+        { envelope.issue_date }
       </List.Item>
       <List.Item>
-        <List.Header>Country</List.Header>
-        { invoice.country }
-      </List.Item>
-      <List.Item>
-        <List.Header>Region</List.Header>
-        { invoice.region }
+        <List.Header>Invoice period</List.Header>
+        { envelope.start_date } - { envelope.end_date }
       </List.Item>
     </List>
+
+    <Table color='green'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Description</Table.HeaderCell>
+          <Table.HeaderCell>Price</Table.HeaderCell>
+          <Table.HeaderCell>Quantity</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        {
+          items.map((it, index) =>
+            <Table.Row key={index}>
+              <Table.Cell>{ it.description }</Table.Cell>
+              <Table.Cell>{ it.price }</Table.Cell>
+              <Table.Cell>{ it.quantity }</Table.Cell>
+            </Table.Row>
+          )
+        }
+      </Table.Body>
+    </Table>
   </Segment>
 }
 

@@ -3,6 +3,7 @@ import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { Button, Segment, List } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import * as routes from '../../constants/routes';
+import moment from 'moment';
 
 
 const Invoices = ({ invoices, history }) => {
@@ -28,7 +29,11 @@ const Invoices = ({ invoices, history }) => {
         <Button inverted color='blue' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
       </List.Content>
       <List.Content>
-        { invoices[id].title }
+        <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>
+          { invoices[id].envelope.buyer_name }
+          { invoices[id].envelope.buyer_address }, { invoices[id].envelope.buyer_region}, { invoices[id].envelope.buyer_country }
+        </List.Header>
+        <List.Description>{ moment(invoices[id].envelope.issue_date).format('l') }</List.Description>
       </List.Content>
     </List.Item>
   );

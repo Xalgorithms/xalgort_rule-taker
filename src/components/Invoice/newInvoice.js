@@ -17,9 +17,11 @@ class NewInvoice extends Component {
       modalOpen: false,
       invoice: {
         envelope: {
+          buyer_name: '',
           buyer_address: '',
           buyer_country: '',
           buyer_region: '',
+          seller_name: '',
           seller_address: '',
           seller_country: '',
           seller_region: '',
@@ -88,7 +90,7 @@ class NewInvoice extends Component {
         onBlur={e => {
           const items = [...this.state.invoice.items];
           items[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          this.setState({ invoice: items });
+          this.setState({ invoice: { items } });
         }}
         dangerouslySetInnerHTML={{
           __html: this.state.invoice.items[cellInfo.index][cellInfo.column.id]
@@ -104,9 +106,9 @@ class NewInvoice extends Component {
         name="quantity"
         min="1"
         onBlur={e => {
-          const items = [...this.state.items];
+          const items = [...this.state.invoice.items];
           items[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          this.setState({ items });
+          this.setState({ invoice: { items } });
         }}
       />
     );
@@ -131,6 +133,7 @@ class NewInvoice extends Component {
             <Grid.Row>
               <Grid.Column>
                 <Header as='h3' dividing>Buyer</Header>
+                <Form.Input name="buyer_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
                 <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''
@@ -155,6 +158,7 @@ class NewInvoice extends Component {
                 <Form.Input name="buyer_address" label='' placeholder='Street, building, apt.' onChange={this.handleInputChange} />
 
                 <Header as='h3' dividing>Seller</Header>
+                <Form.Input name="seller_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
                 <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''
