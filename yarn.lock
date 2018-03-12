@@ -5572,12 +5572,11 @@ react-scripts@1.1.1:
   optionalDependencies:
     fsevents "^1.1.3"
 
-react-timezone@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-timezone/-/react-timezone-1.0.5.tgz#74ba4c9b2235ad8de3bb1303b66f70e6889337e8"
+react-table@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.8.0.tgz#5ce402eb735df68534c03dabb3faa031478b6a58"
   dependencies:
     classnames "^2.2.5"
-    prop-types "^15.6.0"
 
 react-tools@~0.13.0:
   version "0.13.3"
