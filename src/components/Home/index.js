@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import { Grid } from 'semantic-ui-react';
+
 import withAuthorization from '../Auth/withAuthorization';
 import Invoices from '../Invoice/invoices';
 import NewInvoice from '../Invoice/newInvoice';
-import { Grid } from 'semantic-ui-react';
 
 import './index.css';
 

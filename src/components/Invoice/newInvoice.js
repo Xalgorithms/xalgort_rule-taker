@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Button, Header, Icon, Modal, Form, Grid } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import ReactTable from 'react-table';
 import moment from 'moment';
+import React, { Component } from 'react';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import DatePicker from 'react-datepicker';
+import ReactTable from 'react-table';
+import { Button, Header, Icon, Modal, Form, Grid } from 'semantic-ui-react';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-table/react-table.css";
@@ -158,7 +158,7 @@ class NewInvoice extends Component {
                 <Form.Input name="buyer_address" label='' placeholder='Street, building, apt.' onChange={this.handleInputChange} />
 
                 <Header as='h3' dividing>Seller</Header>
-                <Form.Input name="seller_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
+                <Form.Input name="buyer_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
                 <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''

@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { firebaseConnect } from 'react-redux-firebase'
-import GoogleButton from 'react-google-button'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import GoogleButton from 'react-google-button';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+
 import * as routes from '../../constants/routes';
 
 class Login extends Component {

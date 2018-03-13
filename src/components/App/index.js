@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Home from '../Home';
 import Login from '../Login';
 import Invoice from '../Invoice';
 import * as routes from '../../constants/routes';
+
 import './index.css';
 
 const App = () => (

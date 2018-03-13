@@ -1,24 +1,24 @@
+import { firebaseConnect } from 'react-redux-firebase';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { firebaseConnect } from 'react-redux-firebase';
 import { Segment, Header, List, Table } from 'semantic-ui-react';
 
 const enhance = compose(
   firebaseConnect((props) => {
     return [
       { path: `documents/${props.match.params.id}` },
-    ]
+    ];
   }),
   connect(({ firebase }, props) => {
     const docs = firebase.data.documents || {};
     return {
       invoice: docs[props.match.params.id],
-    }
-  })
-)
+    };
+  }),
+);
 
-const Invoice = ({invoice = {}, match}) => {
+const Invoice = ( {invoice = {}, match} ) => {
   const { envelope = {}, items = [] } = invoice;
 
   return <Segment>
@@ -64,6 +64,6 @@ const Invoice = ({invoice = {}, match}) => {
       </Table.Body>
     </Table>
   </Segment>
-}
+};
 
-export default enhance(Invoice)
+export default enhance(Invoice);
