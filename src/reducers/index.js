@@ -1,5 +1,6 @@
 import { firebaseStateReducer as firebase } from 'react-redux-firebase';
 import { combineReducers } from 'redux';
+import { firestoreReducer as firestore } from 'redux-firestore';
 
 import sessionReducer from './session';
 
@@ -7,7 +8,7 @@ import sessionReducer from './session';
 const rootReducer = combineReducers({
   firebase,
   sessionState: sessionReducer,
-  // firestore: firestoreReducer, // <- needed if using firestore
+  firestore,
 });
 
 export default rootReducer;

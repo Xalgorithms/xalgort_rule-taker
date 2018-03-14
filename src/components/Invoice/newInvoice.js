@@ -2,8 +2,11 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import DatePicker from 'react-datepicker';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import { Button, Header, Icon, Modal, Form, Grid } from 'semantic-ui-react';
+
+import * as actions from '../../actions';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-table/react-table.css";
@@ -45,8 +48,7 @@ class NewInvoice extends Component {
 
   handleSubmit = () => {
     const { invoice } = this.state;
-    const { firebase } = this.props;
-
+    const { auth: { uid }, addInvoice } = this.props;
 
     const envelope = Object.assign({}, ...Object.keys(invoice.envelope).map(k => ({
       [k]: invoice.envelope[k] instanceof moment ? invoice.envelope[k].toISOString() : invoice.envelope[k]
@@ -58,7 +60,7 @@ class NewInvoice extends Component {
       { envelope },
     );
 
-    firebase.push('/documents', newInvoice);
+    addInvoice(newInvoice, uid);
     this.handleClose();
   }
 
@@ -251,4 +253,10 @@ class NewInvoice extends Component {
   }
 }
 
-export default NewInvoice;
+function mapDispatchToProps(dispatch) {
+  return {
+    addInvoice: (invoice, uid) => dispatch(actions.addInvoice(invoice, uid))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewInvoice);
