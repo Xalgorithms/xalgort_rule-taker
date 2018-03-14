@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -7,7 +7,9 @@ import { Container, Menu } from 'semantic-ui-react';
 import withAuthentication from '../Auth/withAuthentication';
 import Home from '../Home';
 import Login from '../Login';
+import Invoice from '../Invoice';
 import * as routes from '../../constants/routes';
+
 import './index.css';
 
 const App = () => (
@@ -23,8 +25,9 @@ const App = () => (
 
       <Container style={{ marginTop: '4em' }}>
         <Switch>
-          <Route path={routes.HOME} component={ Home } />
+          <Route path={routes.HOME} component={ Home } exact />
           <Route path={routes.SIGN_IN} component={ Login } />
+          <Route path={`${routes.INVOICE}/:id`} component={ Invoice } />
         </Switch>
       </Container>
     </div>

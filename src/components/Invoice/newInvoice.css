@@ -1,0 +1,15 @@
+.ui.page .modal {
+  margin-top: 100px !important; /* https://github.com/Semantic-Org/Semantic-UI-React/issues/2549 */
+}
+
+.ui.modal i.icon.close {
+  color: white;
+}
+
+.ui.form .ui.header {
+  color: white;
+}
+
+.ui.form .field>label {
+  color: white !important;
+}

@@ -1,27 +1,45 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect } from 'react-redux-firebase';
+import { Grid } from 'semantic-ui-react';
 
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { firebaseConnect } from 'react-redux-firebase'
-import withAuthorization from '../Auth/withAuthorization'
+import withAuthorization from '../Auth/withAuthorization';
+import Invoices from '../Invoice/invoices';
+import NewInvoice from '../Invoice/newInvoice';
+
+import './index.css';
+
 
 class Home extends Component {
   render() {
-    return (<div>home, home, home</div>);
+    const { documents, firebase } = this.props;
+
+    return (
+      <Grid>
+        <Grid.Row>
+          <Grid.Column floated='right' width={2}>
+            <NewInvoice firebase={ firebase }></NewInvoice>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Invoices invoices={ documents }></Invoices>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    )
   }
 }
 
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
-  firebaseConnect([
-    'documents' // { path: '/documents' } // object notation
-  ]),
-  connect(
-    (state) => ({
-      documents: state.firebase.data.documents,
-      // profile: state.firebase.profile // load profile
-    })
-  ),
   withAuthorization(authCondition),
+  firebaseConnect([
+    { path: '/documents' }
+  ]),
+  connect(({ firebase: { data: { documents } } }) => ({
+    documents
+  }))
 )(Home)
