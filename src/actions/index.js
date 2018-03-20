@@ -1,19 +1,28 @@
-import { invoiceAdd } from '../api';
+import * as api from '../api';
 import * as types from '../constants/types';
+import composeInvoiceUBL from '../api/ubl';
 
 export function addInvoice(invoice, uid) {
   const formData = new FormData();
-  const payload = `<?xml version="1.0" encoding="UTF-8"?>
-  <Invoice>
-  </Invoice>
-  `;
+  const payload = composeInvoiceUBL(invoice) ;
   formData.append('content', new Blob([payload], { type: 'application/xml' }), "ubl.xml");
 
   return (dispatch) => {
-    invoiceAdd(formData, uid, (data) => {
+    api.addInvoice(formData, uid, (data) => {
       dispatch({
         type: types.INVOICE_ADDED,
         data,
+      });
+    })
+  };
+};
+
+export function getInvoice(i) {
+  return (dispatch) => {
+    api.getInvoice(i.url, (data) => {
+      dispatch({
+        type: types.INVOICE_FETCHED,
+        data: JSON.parse(data.content),
       });
     })
   };

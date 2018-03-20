@@ -3,12 +3,14 @@ import { combineReducers } from 'redux';
 import { firestoreReducer as firestore } from 'redux-firestore';
 
 import sessionReducer from './session';
+import invoiceReducer from './invoice';
 
 
 const rootReducer = combineReducers({
   firebase,
   sessionState: sessionReducer,
   firestore,
+  invoice: invoiceReducer,
 });
 
 export default rootReducer;

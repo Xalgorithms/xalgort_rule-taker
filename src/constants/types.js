@@ -1,1 +1,2 @@
 export const INVOICE_ADDED = 'INVOICE_ADDED';
+export const INVOICE_FETCHED = 'INVOICE_FETCHED';

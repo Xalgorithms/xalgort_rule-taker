@@ -13,7 +13,7 @@ import './index.css';
 
 class Home extends Component {
   render() {
-    const { documents, auth } = this.props;
+    const { invoices, auth } = this.props;
 
     return (
       <Grid>
@@ -24,7 +24,7 @@ class Home extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Invoices invoices={ documents }></Invoices>
+            <Invoices invoicePaths={ invoices }></Invoices>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -35,14 +35,22 @@ class Home extends Component {
 const authCondition = (authUser) => !!authUser;
 
 function mapStateToProps(state) {
-  const { firestore: { data: { documents } } } = state;
   const { firebase: { auth }} = state;
+  const { firestore: { data: { users = {} } }} = state;
 
-  return { documents, auth };
+  const user = users[auth.uid];
+
+  return { invoices: user && user.invoices, auth };
 }
 
 export default compose(
   withAuthorization(authCondition),
-  firestoreConnect([{ collection: 'documents' }]),
+  firestoreConnect((props) => {
+    const { auth={} } = props;
+
+    return [
+      { collection: 'users', doc: auth.uid },
+    ]
+  }),
   connect(mapStateToProps),
-)(Home)
+)(Home);

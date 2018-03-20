@@ -1,14 +1,16 @@
 import moment from 'moment';
-import React from 'react';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { Button, Segment, List } from 'semantic-ui-react';
 
+import * as actions from '../../actions';
 import * as routes from '../../constants/routes';
 
 
-const Invoices = ({ invoices, history }) => {
-  if (!isLoaded(invoices)) {
+const Invoices = ({ invoices = [], history }) => {
+  if (!invoices.length) {
     return (
       <div className="ui segment">
         <p></p>
@@ -24,20 +26,22 @@ const Invoices = ({ invoices, history }) => {
       No invoices available
     </Segment>
   );
+
   const invoiceList = (
     <List divided verticalAlign='middle'>
       {
-        Object.keys(invoices || {}).map((id) =>
-          <List.Item key={ id }>
+        invoices.map((invoice, i) =>
+          <List.Item key={ i }>
             <List.Content floated='right'>
-              <Button inverted color='blue' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
+              <Button inverted color='blue' onClick={  () => { history.push(`${routes.INVOICE}/${i}`) }}>View</Button>
             </List.Content>
             <List.Content>
-              <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>
-                { invoices[id].envelope.buyer_name }
-                { invoices[id].envelope.buyer_address }, { invoices[id].envelope.buyer_region}, { invoices[id].envelope.buyer_country }
+              <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${i}`) }}>
+                { invoice.envelope.parties.customer.name }
+                { invoice.envelope.parties.supplier.name }, { invoice.envelope.parties.supplier.address.city},
+                { invoice.envelope.parties.supplier.address.country.code.value }
               </List.Header>
-              <List.Description>{ moment(invoices[id].envelope.issue_date).format('l') }</List.Description>
+              <List.Description>{ moment(invoice.envelope.issued).format('l') }</List.Description>
             </List.Content>
           </List.Item>
         )
@@ -45,7 +49,40 @@ const Invoices = ({ invoices, history }) => {
     </List>
   );
 
-  return isEmpty(invoices) ? emptyList : invoiceList;
+  return !invoices.length ? emptyList : invoiceList;
 }
 
-export default withRouter(Invoices);
+function mapStateToProps(state) {
+  const { invoice: {invoices} } = state;
+
+  return { invoices };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getInvoices: (paths = []) => {
+      return paths.forEach((p) => {
+        dispatch(actions.getInvoice(p))
+      });
+    },
+  };
+}
+
+class InvoicesHOC extends Component {
+  componentWillReceiveProps(nextProps) {
+    const { getInvoices, invoicePaths } = nextProps;
+
+    if (invoicePaths.length > this.props.invoices.length) {
+      getInvoices(invoicePaths);
+    }
+  }
+
+  render() {
+    return <Invoices {...this.props}></Invoices>;
+  }
+}
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(InvoicesHOC);
