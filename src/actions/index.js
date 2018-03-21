@@ -19,10 +19,14 @@ export function addInvoice(invoice, uid) {
 
 export function getInvoice(i) {
   return (dispatch) => {
+    const id = i.url.split('/').pop();
     api.getInvoice(i.url, (data) => {
       dispatch({
         type: types.INVOICE_FETCHED,
-        data: JSON.parse(data.content),
+        data: {
+          id,
+          content: JSON.parse(data.content),
+        },
       });
     })
   };

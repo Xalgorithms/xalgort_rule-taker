@@ -9,8 +9,8 @@ import * as actions from '../../actions';
 import * as routes from '../../constants/routes';
 
 
-const Invoices = ({ invoices = [], history }) => {
-  if (!invoices.length) {
+const Invoices = ({ invoices, history }) => {
+  if (!Object.keys(invoices).length) {
     return (
       <div className="ui segment">
         <p></p>
@@ -30,18 +30,18 @@ const Invoices = ({ invoices = [], history }) => {
   const invoiceList = (
     <List divided verticalAlign='middle'>
       {
-        invoices.map((invoice, i) =>
-          <List.Item key={ i }>
+        Object.keys(invoices).map((id) =>
+          <List.Item key={ id }>
             <List.Content floated='right'>
-              <Button inverted color='blue' onClick={  () => { history.push(`${routes.INVOICE}/${i}`) }}>View</Button>
+              <Button inverted color='blue' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
             </List.Content>
             <List.Content>
-              <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${i}`) }}>
-                { invoice.envelope.parties.customer.name }
-                { invoice.envelope.parties.supplier.name }, { invoice.envelope.parties.supplier.address.city},
-                { invoice.envelope.parties.supplier.address.country.code.value }
+              <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>
+                { invoices[id].envelope.parties.customer.name }
+                { invoices[id].envelope.parties.supplier.name }, { invoices[id].envelope.parties.supplier.address.city},
+                { invoices[id].envelope.parties.supplier.address.country.code.value }
               </List.Header>
-              <List.Description>{ moment(invoice.envelope.issued).format('l') }</List.Description>
+              <List.Description>{ moment(invoices[id].envelope.issued).format('l') }</List.Description>
             </List.Content>
           </List.Item>
         )
@@ -49,11 +49,11 @@ const Invoices = ({ invoices = [], history }) => {
     </List>
   );
 
-  return !invoices.length ? emptyList : invoiceList;
+  return !Object.keys(invoices).length ? emptyList : invoiceList;
 }
 
 function mapStateToProps(state) {
-  const { invoice: {invoices} } = state;
+  const { invoices } = state;
 
   return { invoices };
 }
@@ -72,7 +72,7 @@ class InvoicesHOC extends Component {
   componentWillReceiveProps(nextProps) {
     const { getInvoices, invoicePaths } = nextProps;
 
-    if (invoicePaths.length > this.props.invoices.length) {
+    if (invoicePaths.length > Object.keys(this.props.invoices).length) {
       getInvoices(invoicePaths);
     }
   }

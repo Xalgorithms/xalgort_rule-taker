@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   firebase,
   sessionState: sessionReducer,
   firestore,
-  invoice: invoiceReducer,
+  invoices: invoiceReducer,
 });
 
 export default rootReducer;
