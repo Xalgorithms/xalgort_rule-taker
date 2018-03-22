@@ -1,11 +1,14 @@
 import firebase from 'firebase';
+import 'firebase/firestore';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import { applyMiddleware, createStore, compose } from 'redux';
 import { createLogger } from 'redux-logger';
-// import 'firebase/firestore' // <- needed if using firestore
+import thunk from 'redux-thunk';
+import { reduxFirestore } from 'redux-firestore';
 
 import rootReducer from '../reducers';
 
+// TODO: Move this to config
 const firebaseConfig = {
   apiKey: 'AIzaSyDJg6JlnlyfNnQXt6byrVXYOEm_5MJ6m-Y',
   authDomain: 'lichen-ui.firebaseapp.com',
@@ -18,6 +21,7 @@ const firebaseConfig = {
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',
+  useFirestoreForProfile: true,
   enableLogging: true,
 };
 
@@ -25,18 +29,19 @@ const rrfConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // initialize firestore
-// firebase.firestore() // <- needed if using firestore
+firebase.firestore()
 
 export const configureStore = () => {
   const middleWare = [];
   const loggerMiddleware = createLogger({
     predicate: () => process.env.NODE_ENV === 'development',
   });
+  middleWare.push(thunk);
   middleWare.push(loggerMiddleware);
 
   const createStoreWithFirebase = compose(
     reactReduxFirebase(firebase, rrfConfig),
-    // reduxFirestore(firebase) // <- needed if using firestore
+    reduxFirestore(firebase),
     applyMiddleware(...middleWare),
   )(createStore);
 

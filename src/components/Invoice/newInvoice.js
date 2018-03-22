@@ -2,8 +2,11 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import DatePicker from 'react-datepicker';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import { Button, Header, Icon, Modal, Form, Grid } from 'semantic-ui-react';
+
+import * as actions from '../../actions';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-table/react-table.css";
@@ -18,13 +21,17 @@ class NewInvoice extends Component {
       invoice: {
         envelope: {
           buyer_name: '',
-          buyer_address: '',
+          buyer_street: '',
+          buyer_building: '',
           buyer_country: '',
           buyer_region: '',
+          buyer_postal_code: '',
           seller_name: '',
-          seller_address: '',
+          seller_street: '',
+          seller_building: '',
           seller_country: '',
           seller_region: '',
+          seller_postal_code: '',
           issue_date: moment(),
           start_date: moment(),
           end_date: moment(),
@@ -45,8 +52,7 @@ class NewInvoice extends Component {
 
   handleSubmit = () => {
     const { invoice } = this.state;
-    const { firebase } = this.props;
-
+    const { auth: { uid }, addInvoice } = this.props;
 
     const envelope = Object.assign({}, ...Object.keys(invoice.envelope).map(k => ({
       [k]: invoice.envelope[k] instanceof moment ? invoice.envelope[k].toISOString() : invoice.envelope[k]
@@ -58,7 +64,7 @@ class NewInvoice extends Component {
       { envelope },
     );
 
-    firebase.push('/documents', newInvoice);
+    addInvoice(newInvoice, uid);
     this.handleClose();
   }
 
@@ -135,12 +141,18 @@ class NewInvoice extends Component {
                 <Header as='h3' dividing>Buyer</Header>
                 <Form.Input name="buyer_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
                 <Form.Group unstackable widths={5}>
+                  <Form.Input name="buyer_street" label='' placeholder='Street name' onChange={this.handleInputChange} />
+                  <Form.Input name="buyer_building" label='' placeholder='Building N' onChange={this.handleInputChange} />
+                  <Form.Input name="buyer_postal_code" label='' placeholder='Postal code' onChange={this.handleInputChange} />
+                </Form.Group>
+                <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''
                     name='buyer_country'
                     valueType='short'
                     control={ CountryDropdown }
                     value={ envelope.buyer_country }
+                    classes="selector"
                     onChange={ c => this.updateEnvelope('buyer_country', c) }
                   />
 
@@ -149,16 +161,21 @@ class NewInvoice extends Component {
                     name="buyer_region"
                     countryValueType='short'
                     disableWhenEmpty={ true }
-                    control={RegionDropdown}
+                    control={ RegionDropdown }
                     country={ envelope.buyer_country }
                     value={ envelope.buyer_region }
+                    classes="selector"
                     onChange={ r => this.updateEnvelope('buyer_region', r) }
                   />
                 </Form.Group>
-                <Form.Input name="buyer_address" label='' placeholder='Street, building, apt.' onChange={this.handleInputChange} />
 
                 <Header as='h3' dividing>Seller</Header>
-                <Form.Input name="buyer_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
+                <Form.Input name="seller_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
+                <Form.Group unstackable widths={5}>
+                  <Form.Input name="seller_street" label='' placeholder='Street name' onChange={this.handleInputChange} />
+                  <Form.Input name="seller_building" label='' placeholder='Building N' onChange={this.handleInputChange} />
+                  <Form.Input name="seller_postal_code" label='' placeholder='Postal code' onChange={this.handleInputChange} />
+                </Form.Group>
                 <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''
@@ -166,6 +183,7 @@ class NewInvoice extends Component {
                     valueType='short'
                     control={ CountryDropdown }
                     value={ envelope.seller_country }
+                    classes="selector"
                     onChange={ c => this.updateEnvelope('seller_country', c) }
                   />
 
@@ -177,10 +195,10 @@ class NewInvoice extends Component {
                     control={RegionDropdown}
                     country={ envelope.seller_country }
                     value={ envelope.seller_region }
+                    classes="selector"
                     onChange={ r => this.updateEnvelope('seller_region', r) }
                   />
                 </Form.Group>
-                <Form.Input name="seller_address" label='' placeholder='Street, building, apt.' onChange={this.handleInputChange} />
               </Grid.Column>
               <Grid.Column>
                 <Header as='h3' dividing>Invoice details</Header>
@@ -251,4 +269,10 @@ class NewInvoice extends Component {
   }
 }
 
-export default NewInvoice;
+function mapDispatchToProps(dispatch) {
+  return {
+    addInvoice: (invoice, uid) => dispatch(actions.addInvoice(invoice, uid))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewInvoice);
