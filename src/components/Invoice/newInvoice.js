@@ -21,13 +21,17 @@ class NewInvoice extends Component {
       invoice: {
         envelope: {
           buyer_name: '',
-          buyer_address: '',
+          buyer_street: '',
+          buyer_building: '',
           buyer_country: '',
           buyer_region: '',
+          buyer_postal_code: '',
           seller_name: '',
-          seller_address: '',
+          seller_street: '',
+          seller_building: '',
           seller_country: '',
           seller_region: '',
+          seller_postal_code: '',
           issue_date: moment(),
           start_date: moment(),
           end_date: moment(),
@@ -137,12 +141,18 @@ class NewInvoice extends Component {
                 <Header as='h3' dividing>Buyer</Header>
                 <Form.Input name="buyer_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
                 <Form.Group unstackable widths={5}>
+                  <Form.Input name="buyer_street" label='' placeholder='Street name' onChange={this.handleInputChange} />
+                  <Form.Input name="buyer_building" label='' placeholder='Building N' onChange={this.handleInputChange} />
+                  <Form.Input name="buyer_postal_code" label='' placeholder='Postal code' onChange={this.handleInputChange} />
+                </Form.Group>
+                <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''
                     name='buyer_country'
                     valueType='short'
                     control={ CountryDropdown }
                     value={ envelope.buyer_country }
+                    classes="selector"
                     onChange={ c => this.updateEnvelope('buyer_country', c) }
                   />
 
@@ -151,16 +161,21 @@ class NewInvoice extends Component {
                     name="buyer_region"
                     countryValueType='short'
                     disableWhenEmpty={ true }
-                    control={RegionDropdown}
+                    control={ RegionDropdown }
                     country={ envelope.buyer_country }
                     value={ envelope.buyer_region }
+                    classes="selector"
                     onChange={ r => this.updateEnvelope('buyer_region', r) }
                   />
                 </Form.Group>
-                <Form.Input name="buyer_address" label='' placeholder='Street, building, apt.' onChange={this.handleInputChange} />
 
                 <Header as='h3' dividing>Seller</Header>
-                <Form.Input name="buyer_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
+                <Form.Input name="seller_name" label='' placeholder='Company name' onChange={this.handleInputChange} />
+                <Form.Group unstackable widths={5}>
+                  <Form.Input name="seller_street" label='' placeholder='Street name' onChange={this.handleInputChange} />
+                  <Form.Input name="seller_building" label='' placeholder='Building N' onChange={this.handleInputChange} />
+                  <Form.Input name="seller_postal_code" label='' placeholder='Postal code' onChange={this.handleInputChange} />
+                </Form.Group>
                 <Form.Group unstackable widths={5}>
                   <Form.Field
                     label=''
@@ -168,6 +183,7 @@ class NewInvoice extends Component {
                     valueType='short'
                     control={ CountryDropdown }
                     value={ envelope.seller_country }
+                    classes="selector"
                     onChange={ c => this.updateEnvelope('seller_country', c) }
                   />
 
@@ -179,10 +195,10 @@ class NewInvoice extends Component {
                     control={RegionDropdown}
                     country={ envelope.seller_country }
                     value={ envelope.seller_region }
+                    classes="selector"
                     onChange={ r => this.updateEnvelope('seller_region', r) }
                   />
                 </Form.Group>
-                <Form.Input name="seller_address" label='' placeholder='Street, building, apt.' onChange={this.handleInputChange} />
               </Grid.Column>
               <Grid.Column>
                 <Header as='h3' dividing>Invoice details</Header>

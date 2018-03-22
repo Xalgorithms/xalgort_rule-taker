@@ -37,8 +37,7 @@ const Invoices = ({ invoices, history }) => {
             </List.Content>
             <List.Content>
               <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>
-                { invoices[id].envelope.parties.customer.name }
-                { invoices[id].envelope.parties.supplier.name }, { invoices[id].envelope.parties.supplier.address.city},
+                { invoices[id].envelope.parties.customer.name } { invoices[id].envelope.parties.supplier.name }, { invoices[id].envelope.parties.supplier.address.city},
                 { invoices[id].envelope.parties.supplier.address.country.code.value }
               </List.Header>
               <List.Description>{ moment(invoices[id].envelope.issued).format('l') }</List.Description>
@@ -62,7 +61,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getInvoices: (paths = []) => {
       return paths.forEach((p) => {
-        dispatch(actions.getInvoice(p))
+        dispatch(actions.getInvoice(p.url))
       });
     },
   };

@@ -18,7 +18,7 @@ export default (invoice) => {
           <cbc:StreetName>${invoice.envelope.seller_address}</cbc:StreetName>
           <cbc:BuildingNumber>${invoice.envelope.seller_address}</cbc:BuildingNumber>
           <cbc:CityName>${invoice.envelope.seller_region}</cbc:CityName>
-          <cbc:PostalZone>${invoice.envelope.seller_country}</cbc:PostalZone>
+          <cbc:PostalZone>${invoice.envelope.seller_postal_code}</cbc:PostalZone>
           <cbc:CountrySubentityCode></cbc:CountrySubentityCode>
           <cac:Country>
             <cbc:IdentificationCode>${invoice.envelope.seller_country}</cbc:IdentificationCode>
@@ -44,16 +44,16 @@ export default (invoice) => {
           <cbc:ID schemeID="TS:ID"></cbc:ID>
         </cac:PartyIdentification>
         <cac:PartyName>
-          <cbc:Name></cbc:Name>
+          <cbc:Name>${invoice.envelope.buyer_name}</cbc:Name>
         </cac:PartyName>
         <cac:PostalAddress>
           <cbc:AddressFormatCode listAgencyID="6" listID="UN/ECE 3477" listVersionID="D08B">5</cbc:AddressFormatCode>
-          <cbc:StreetName></cbc:StreetName>
-          <cbc:BuildingNumber></cbc:BuildingNumber>
-          <cbc:CityName></cbc:CityName>
-          <cbc:PostalZone></cbc:PostalZone>
+          <cbc:StreetName>${invoice.envelope.buyer_street}</cbc:StreetName>
+          <cbc:BuildingNumber>${invoice.envelope.buyer_building}</cbc:BuildingNumber>
+          <cbc:CityName>${invoice.envelope.buyer_region}</cbc:CityName>
+          <cbc:PostalZone>${invoice.envelope.buyer_postal_code}</cbc:PostalZone>
           <cac:Country>
-      <cbc:IdentificationCode></cbc:IdentificationCode>
+            <cbc:IdentificationCode>${invoice.envelope.buyer_country}</cbc:IdentificationCode>
           </cac:Country>
         </cac:PostalAddress>
         <cac:Contact></cac:Contact>

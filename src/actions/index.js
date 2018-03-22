@@ -17,10 +17,10 @@ export function addInvoice(invoice, uid) {
   };
 };
 
-export function getInvoice(i) {
+export function getInvoice(url) {
   return (dispatch) => {
-    const id = i.url.split('/').pop();
-    api.getInvoice(i.url, (data) => {
+    const id = url.split('/').pop();
+    api.getInvoice(url, (data) => {
       dispatch({
         type: types.INVOICE_FETCHED,
         data: {

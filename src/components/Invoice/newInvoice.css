@@ -13,3 +13,10 @@
 .ui.form .field>label {
   color: white !important;
 }
+
+.ui.modal .selector {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 10x;
+}
