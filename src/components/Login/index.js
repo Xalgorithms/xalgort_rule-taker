@@ -4,8 +4,10 @@ import GoogleButton from 'react-google-button';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { Grid } from 'semantic-ui-react';
 
 import * as routes from '../../constants/routes';
+import './index.css';
 
 class Login extends Component {
   onAuth = () => {
@@ -25,10 +27,12 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <GoogleButton onClick={this.onAuth}>
-          Login With Google
-        </GoogleButton>
+      <div className="signin">
+        <Grid columns={1} verticalAlign="middle" centered={true}>
+          <GoogleButton onClick={this.onAuth}>
+            Login With Google
+          </GoogleButton>
+        </Grid>
       </div>
     );
   }
