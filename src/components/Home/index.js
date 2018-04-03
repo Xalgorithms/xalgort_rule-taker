@@ -39,8 +39,9 @@ function mapStateToProps(state) {
   const { firestore: { data: { users = {} } }} = state;
 
   const user = users[auth.uid];
+  const invoices = user ? user.invoices || [] :  null;
 
-  return { invoices: user && user.invoices, auth };
+  return { invoices, auth };
 }
 
 export default compose(

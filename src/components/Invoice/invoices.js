@@ -10,17 +10,6 @@ import * as routes from '../../constants/routes';
 
 
 const Invoices = ({ invoices, history }) => {
-  if (!Object.keys(invoices).length) {
-    return (
-      <div className="ui segment">
-        <p></p>
-        <div className="ui active dimmer">
-          <div className="ui loader"></div>
-        </div>
-      </div>
-    )
-  }
-
   const emptyList = (
     <Segment textAlign='center' raised padded>
       No invoices available
