@@ -1,37 +1,57 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Route, Switch } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Redirect, Route, Switch } from 'react-router';
+import { NavLink, withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { Container, Menu } from 'semantic-ui-react';
 
 import withAuthentication from '../Auth/withAuthentication';
 import Home from '../Home';
-import Login from '../Login';
 import Invoice from '../Invoice';
 import * as routes from '../../constants/routes';
 
 import './index.css';
 
-const App = () => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <div>
-      <Menu fixed='top'>
-        <Container>
-          <Menu.Item as={NavLink} active={true} to={routes.HOME} header>
-            Xalgo Author
-          </Menu.Item>
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    window.localStorage.clear();
+    this.props.history.push({
+      pathname: routes.SIGN_IN
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Menu fixed='top'>
+          <Container>
+            <Menu.Item as={NavLink} active={true} to={routes.HOME} header>
+              Xalgo Author
+            </Menu.Item>
+
+            <Menu.Menu position='right'>
+              <Menu.Item name='logout' onClick={this.handleLogout} />
+            </Menu.Menu>
+          </Container>
+        </Menu>
+
+        <Container style={{ marginTop: '4em' }}>
+          <Switch>
+            <Route path={routes.HOME} component={ Home } exact />
+            <Route path={`${routes.INVOICE}/:id`} component={ Invoice } />
+            <Redirect to={routes.HOME} />
+          </Switch>
         </Container>
-      </Menu>
+      </div>
+    )
+  }
+}
 
-      <Container style={{ marginTop: '4em' }}>
-        <Switch>
-          <Route path={routes.HOME} component={ Home } exact />
-          <Route path={routes.SIGN_IN} component={ Login } />
-          <Route path={`${routes.INVOICE}/:id`} component={ Invoice } />
-        </Switch>
-      </Container>
-    </div>
-  </BrowserRouter>
-);
-
-export default withAuthentication(App);
+export default compose(
+  withAuthentication,
+  withRouter
+)(App);
