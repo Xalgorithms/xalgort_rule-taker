@@ -64,7 +64,7 @@ export function subscribeToTopics(topics) {
 };
 
 export function subscribe(url, dispatch) {
-  const ws_url = `ws://35.231.81.35:8888${url}`;
+  const ws_url = `wss://35.190.13.201${url}`;
   ws = new WebSocket(ws_url);
 
   ws.onopen = function()
