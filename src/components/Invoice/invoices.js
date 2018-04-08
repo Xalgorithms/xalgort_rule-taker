@@ -9,7 +9,7 @@ import * as actions from '../../actions';
 import * as routes from '../../constants/routes';
 
 
-const Invoices = ({ invoices, history }) => {
+const Invoices = ({ invoices, history, scheduleInvoice, subscribe }) => {
   const emptyList = (
     <Segment textAlign='center' raised padded>
       No invoices available
@@ -22,7 +22,13 @@ const Invoices = ({ invoices, history }) => {
         Object.keys(invoices).map((id) =>
           <List.Item key={ id }>
             <List.Content floated='right'>
-              <Button inverted color='blue' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
+              <Button inverted color='blue' onClick={ () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
+            </List.Content>
+            <List.Content floated='right'>
+              <Button inverted color='blue' onClick={ () => { scheduleInvoice(id, invoices[id]) } }>Schedule</Button>
+            </List.Content>
+            <List.Content floated='right'>
+              <Button inverted color='blue'>Subscribe</Button>
             </List.Content>
             <List.Content>
               <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>
@@ -53,10 +59,29 @@ function mapDispatchToProps(dispatch) {
         dispatch(actions.getInvoice(p.url))
       });
     },
+    scheduleInvoice: (id, payload) => dispatch(actions.scheduleInvoice(id, payload)),
+    subscribe: () => dispatch(actions.subscribeToTopics()),
+    disconnect: () => dispatch(actions.disconnect()),
   };
 }
 
 class InvoicesHOC extends Component {
+  componentDidMount() {
+    const { subscribe, disconnect } = this.props;
+
+    subscribe();
+
+    window.addEventListener("beforeunload", disconnect)
+  }
+
+  componentWillUnmount() {
+    const { disconnect } = this.props;
+
+    disconnect();
+
+    window.removeEventListener("beforeunload", disconnect)
+  }
+
   componentWillReceiveProps(nextProps) {
     const { getInvoices, invoicePaths } = nextProps;
 
