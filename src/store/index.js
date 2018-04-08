@@ -6,17 +6,10 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import { reduxFirestore } from 'redux-firestore';
 
+import config from '../config';
 import rootReducer from '../reducers';
 
-// TODO: Move this to config
-const firebaseConfig = {
-  apiKey: 'AIzaSyDJg6JlnlyfNnQXt6byrVXYOEm_5MJ6m-Y',
-  authDomain: 'lichen-ui.firebaseapp.com',
-  databaseURL: 'https://lichen-ui.firebaseio.com',
-  projectId: 'lichen-ui',
-  storageBucket: 'lichen-ui.appspot.com',
-  messagingSenderId: '211290057486',
-};
+const { FIRESTORE: firebaseConfig } = config;
 
 // react-redux-firebase config
 const rrfConfig = {

@@ -2,6 +2,8 @@ import * as api from '../api';
 import * as types from '../constants/types';
 import composeInvoiceUBL from '../api/ubl';
 
+import config from '../config';
+
 let ws;
 
 export function addInvoice(invoice, uid) {
@@ -64,7 +66,7 @@ export function subscribeToTopics(topics) {
 };
 
 export function subscribe(url, dispatch) {
-  const ws_url = `wss://35.190.13.201${url}`;
+  const ws_url = `${config.WS_PATH}${url}`;
   ws = new WebSocket(ws_url);
 
   ws.onopen = function()
