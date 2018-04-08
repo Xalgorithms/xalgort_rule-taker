@@ -1,7 +1,7 @@
 // TODO: Move this to config
 const DOCUMENT_SERVICE = 'https://lichen-ui.appspot.com/v1';
-const SCHEDULE_SERVICE = 'http://localhost:9000';
-const EVENTS_SERVICE = 'http://localhost:4200';
+const SCHEDULE_SERVICE = 'http://35.231.81.35:6000';
+const EVENTS_SERVICE = 'http://35.231.81.35:4200';
 
 export function addInvoice (invoice, uid, callback) {
   fetch(`${DOCUMENT_SERVICE}/documents`, {
