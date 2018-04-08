@@ -54,7 +54,7 @@ export function scheduleInvoice(firestore_id, payload) {
 export function subscribeToTopics(topics) {
   return (dispatch) => {
     api.subscribe(topics, (data) => {
-      subscribe(data.url);
+      subscribe(data.url, dispatch);
       dispatch({
         type: types.TOPICS_SUBSCRIBED,
         data,
@@ -63,7 +63,7 @@ export function subscribeToTopics(topics) {
   };
 };
 
-export function subscribe(url) {
+export function subscribe(url, dispatch) {
   const ws_url = `ws://localhost:8888${url}`;
   ws = new WebSocket(ws_url);
 
@@ -76,17 +76,24 @@ export function subscribe(url) {
   ws.onmessage = function (m)
   {
     console.log(`> received`, m);
-    const data = JSON.parse(m.data);
-    const { topic, payload } = data;
-    if (topic === 'xadf.compute.documents') {
-      const id = payload;
-      console.log(id);
-    }
+    // TODO: Rethink this
+    // Id of scheduled document arrives later,
+    // so we need timeout here
+    setTimeout(() => {
+      const data = JSON.parse(m.data);
+      const { topic, payload } = data;
+      const id = extractId(topic, payload);
 
-    if (topic === 'xadf.compute.effective') {
-      const id = payload.split(':')[0];
-      console.log(id);
-    }
+      if (topic === 'service') {
+        return;
+      }
+
+      dispatch({
+        type: types.INVOICE_STATUS_CHANGED,
+        id,
+        topic
+      });
+    }, 1000);
   };
 
   ws.onclose = function()
@@ -94,6 +101,19 @@ export function subscribe(url) {
     // websocket is closed.
     console.log("Connection is closed...");
   };
+
+  function extractId(topic, payload) {
+    let id = null;
+    if (topic === 'xadf.compute.documents') {
+      id = payload;
+    }
+
+    if (topic === 'xadf.compute.effective') {
+      id = payload.split(':')[0];
+    }
+    // Transform schedule id to firestore id
+    return localStorage.getItem(id);
+  }
 };
 
 export function disconnect() {
