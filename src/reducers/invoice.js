@@ -2,7 +2,7 @@ import * as types from '../constants/types';
 
 const INITIAL_STATE = {};
 
-function sessionReducer(state = INITIAL_STATE, action) {
+function invoiceReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case types.INVOICE_FETCHED: {
       return {
@@ -10,8 +10,19 @@ function sessionReducer(state = INITIAL_STATE, action) {
         [action.data.id]: action.data.content,
       }
     }
+    case types.INVOICE_STATUS_CHANGED: {
+      const { id, topic } = action;
+      console.log(action);
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          topic,
+        },
+      }
+    }
     default: return state;
   }
 }
 
-export default sessionReducer;
+export default invoiceReducer;

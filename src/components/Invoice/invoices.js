@@ -8,6 +8,8 @@ import { Button, Segment, List } from 'semantic-ui-react';
 import * as actions from '../../actions';
 import * as routes from '../../constants/routes';
 
+import './invoices.css';
+
 
 const Invoices = ({ invoices, history, scheduleInvoice, subscribe }) => {
   const emptyList = (
@@ -16,29 +18,53 @@ const Invoices = ({ invoices, history, scheduleInvoice, subscribe }) => {
     </Segment>
   );
 
+  const isScheduled = (id) => {
+    return Object.keys(localStorage).reduce((acc, k) => {
+      return acc || localStorage[k] === id;
+    }, false);
+  };
+
+  const getColor = (topic) => {
+    if (topic === 'xadf.compute.documents') {
+      return 'circle yellow';
+    }
+
+    if (topic === 'xadf.compute.effective') {
+      return 'circle red';
+    }
+
+    return 'circle red';
+  };
+
   const invoiceList = (
     <List divided verticalAlign='middle'>
       {
-        Object.keys(invoices).map((id) =>
-          <List.Item key={ id }>
-            <List.Content floated='right'>
-              <Button inverted color='blue' onClick={ () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
-            </List.Content>
-            <List.Content floated='right'>
-              <Button inverted color='blue' onClick={ () => { scheduleInvoice(id, invoices[id]) } }>Schedule</Button>
-            </List.Content>
-            <List.Content floated='right'>
-              <Button inverted color='blue'>Subscribe</Button>
-            </List.Content>
-            <List.Content>
-              <List.Header as='a' onClick={  () => { history.push(`${routes.INVOICE}/${id}`) }}>
-                { invoices[id].envelope.parties.customer.name } { invoices[id].envelope.parties.supplier.name }, { invoices[id].envelope.parties.supplier.address.city},
-                { invoices[id].envelope.parties.supplier.address.country.code.value }
-              </List.Header>
-              <List.Description>{ moment(invoices[id].envelope.issued).format('l') }</List.Description>
-            </List.Content>
-          </List.Item>
-        )
+        Object.keys(invoices).map((id) =>{
+          return (
+            <List.Item key={ id }>
+              {
+                isScheduled(id) ? <List.Content floated='left'>
+                  <div className={getColor(invoices[id].topic)}></div>
+                </List.Content> : null
+              }
+              <List.Content floated='right'>
+                <Button inverted color='blue' onClick={ () => { history.push(`${routes.INVOICE}/${id}`) }}>View</Button>
+              </List.Content>
+              {
+                isScheduled(id) ? null : <List.Content floated='right'>
+                  <Button inverted color='blue' onClick={ () => { scheduleInvoice(id, invoices[id]) } }>Schedule</Button>
+                </List.Content>
+              }
+              <List.Content>
+                <List.Header as='a' onClick={ () => { history.push(`${routes.INVOICE}/${id}`) }}>
+                  { invoices[id].envelope.parties.customer.name } { invoices[id].envelope.parties.supplier.name }, { invoices[id].envelope.parties.supplier.address.city},
+                  { invoices[id].envelope.parties.supplier.address.country.code.value }
+                </List.Header>
+                <List.Description>{ moment(invoices[id].envelope.issued).format('l') }</List.Description>
+              </List.Content>
+            </List.Item>
+          )
+        })
       }
     </List>
   );
