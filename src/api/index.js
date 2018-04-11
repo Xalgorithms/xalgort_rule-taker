@@ -51,7 +51,7 @@ export function scheduleInvoice(name, payload, callback) {
 export function subscribe(topics, callback) {
   fetch(`${EVENTS_SERVICE}/subscriptions`, {
     body: JSON.stringify({
-      topics: ['xadf.compute.documents', 'xadf.compute.effective']
+      topics
     }),
     headers: {'Content-Type': 'application/json'},
     method: 'POST',
