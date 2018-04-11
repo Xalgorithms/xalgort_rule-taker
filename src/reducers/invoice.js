@@ -12,7 +12,7 @@ function invoiceReducer(state = INITIAL_STATE, action) {
     }
     case types.INVOICE_STATUS_CHANGED: {
       const { id, topic } = action;
-      console.log(action);
+
       return {
         ...state,
         [id]: {

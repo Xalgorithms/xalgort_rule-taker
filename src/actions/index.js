@@ -3,6 +3,7 @@ import * as types from '../constants/types';
 import composeInvoiceUBL from '../api/ubl';
 
 import config from '../config';
+import * as topics from '../constants/topics';
 
 let ws;
 
@@ -53,9 +54,10 @@ export function scheduleInvoice(firestore_id, payload) {
   };
 };
 
-export function subscribeToTopics(topics) {
+export function subscribeToTopics() {
+  const all_topics = [topics.DOCUMENTS, topics.EFFECTIVE, topics.APPLICABLE];
   return (dispatch) => {
-    api.subscribe(topics, (data) => {
+    api.subscribe(all_topics, (data) => {
       subscribe(data.url, dispatch);
       dispatch({
         type: types.TOPICS_SUBSCRIBED,
@@ -86,7 +88,7 @@ export function subscribe(url, dispatch) {
       const { topic, payload } = data;
       const id = extractId(topic, payload);
 
-      if (topic === 'service') {
+      if (topic === 'service' || !id) {
         return;
       }
 
@@ -106,13 +108,18 @@ export function subscribe(url, dispatch) {
 
   function extractId(topic, payload) {
     let id = null;
-    if (topic === 'xadf.compute.documents') {
+    if (topic === topics.DOCUMENTS) {
       id = payload;
     }
 
-    if (topic === 'xadf.compute.effective') {
+    if (topic === topics.EFFECTIVE) {
       id = payload.split(':')[0];
     }
+
+    if (topic === topics.APPLICABLE) {
+      id = payload.split(':')[0];
+    }
+
     // Transform schedule id to firestore id
     return localStorage.getItem(id);
   }

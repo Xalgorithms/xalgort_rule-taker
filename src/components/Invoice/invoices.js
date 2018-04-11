@@ -7,6 +7,7 @@ import { Button, Segment, List } from 'semantic-ui-react';
 
 import * as actions from '../../actions';
 import * as routes from '../../constants/routes';
+import * as topics from '../../constants/topics';
 
 import './invoices.css';
 
@@ -25,12 +26,16 @@ const Invoices = ({ invoices, history, scheduleInvoice, subscribe }) => {
   };
 
   const getColor = (topic) => {
-    if (topic === 'xadf.compute.documents') {
+    if (topic === topics.DOCUMENTS) {
       return 'circle yellow';
     }
 
-    if (topic === 'xadf.compute.effective') {
+    if (topic === topics.EFFECTIVE) {
       return 'circle red';
+    }
+
+    if (topic === topics.APPLICABLE) {
+      return 'circle green';
     }
 
     return 'circle red';
