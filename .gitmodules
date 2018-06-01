@@ -1,0 +1,8 @@
+[submodule "libs/iltk"]
+	path = libs/iltk
+	url = git@github.com:Xalgorithms/lib-iltk-js.git
+	branch = master
+[submodule "libs/ubl"]
+	path = libs/ubl
+	url = git@github.com:Xalgorithms/lib-ubl-js.git
+	branch = master
