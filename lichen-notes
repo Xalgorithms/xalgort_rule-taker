@@ -1,0 +1,30 @@
+XXXXXXXXXXXXXXX THE LICHEN PROCESS XXXXXXXXXXXXXXX
+
+These notes may be out-of-date. This has not been updated, it has just been brought over from co-draftin in an etherpad.
+
+CLIENT SIDE
+
+STEP 0: PREREQUISITE: A XALGO-CONFORMANT "INTERNET OF RULES" EXISTS
+LICHEN conducts a handshake via the API, runs a test process, and validates return data.
+
+SERVER SIDE
+
+STEP 1: ACCEPT XML STRING,  THEN VALIDATE UBL DATA FORMAT AND DOCUMENT  TYPE
+Identify data as valid XML, and as (1) valid DocumentType from a specified (1) UBLVersionID.
+
+STEP 2: DELIMIT A CONTEXT BASED UPON 'WHO/WHEN/WHERE' UBL INPUT DATA
+Process Who(2..n), When(1) ,  Where(2..n) data to omit context-irrelevant rules(n) , then load remaining context-relevant rules(n) 
+
+STEP 3: PROCESS 'WHAT' FROM UBL INPUT DATA WITH CONTEXT-RELEVANT RULES
+Process What (1..n) data from LineItem(0..n) context-relevant rules. 
+LineItem is a composite data structure containing information such as item name, item code, quantity, unit name, unit price, price extension, and so on)
+
+STEP 4: GENERATE UBL RETURN DATA, CACHE RECORD OF PROCESS INSTANCE, AND SEND AS A JSON MESSAGE TO LICHEN USER INTERFACE
+Structure results of item-specific processing as a UBL document(0,1)  expressed in JSON,  log the process to cache, and send JSON message to Lichen interface application
+
+CLIENT SIDE
+
+STEP 5: RECEIVE USER INPUT (REJECT, CHOOSE, OR ACCEPT) JSON MESSAGE CONTENTS
+Upon REJECT, user returns to the pre-Lichen UBL document to make changes, drop process data from cache
+Upon CHOOSE, process returns to STEP 3 with additional data
+Upon ACCEPT, archive record of process instance with immutable record(1) (in Hyperledger?) for archiving.
